@@ -3,6 +3,7 @@ package inobr.eft.formula.elements.functions
 	import flash.display.SimpleButton;
 	import flash.events.*;
 	import flash.utils.*;
+	import inobr.eft.formula.errors.CalculationError;
 	
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.FocusManager;
@@ -69,23 +70,19 @@ package inobr.eft.formula.elements.functions
 				// error checking
 				if (argumentValues[0] == "NaN" || indexValues[0] == "NaN")
 				{
-					var errorMessage:String = T('NoArgument');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+					throw new CalculationError(T('NoArgument'), this);	
 				}
 				if (argumentValues[a] <= 0)
 				{
-					errorMessage = T('NegativeNumberInLog');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+					throw new CalculationError(T('NegativeNumberInLog'), this);	
 				}
 				if (indexValues[a] <= 0)
 				{
-					errorMessage = T('NegativeNumberInLogBase');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+					throw new CalculationError(T('NegativeNumberInLogBase'), this);	
 				}
 				if (indexValues[a] == 1)
 				{
-					errorMessage = T('OneInLogBase');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+					throw new CalculationError(T('OneInLogBase'), this);	
 				}
 				
 				var value:Number = Math.pow(Math.log(argumentValues[a]) / Math.log(indexValues[b]), powValues[p]);

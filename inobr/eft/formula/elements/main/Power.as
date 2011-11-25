@@ -9,6 +9,7 @@ package inobr.eft.formula.elements.main
 	import inobr.eft.formula.events.*;
 	import inobr.eft.formula.parser.Parser;
 	import inobr.eft.formula.core.managers.FocusManager;
+	import inobr.eft.formula.errors.CalculationError;
 	import inobr.eft.common.lang.*;
 	
 	/**
@@ -93,8 +94,7 @@ package inobr.eft.formula.elements.main
 			
 			if (base[0] == "NaN" || index[0] == "NaN")
 			{
-				var errorMessage:String = T('NoArgument');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+				throw new CalculationError(T('NoArgument'), this);	
 			}
 			
 			var valuesNum:int = Math.max(base.length, index.length);

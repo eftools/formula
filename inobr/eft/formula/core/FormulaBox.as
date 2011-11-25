@@ -5,6 +5,7 @@
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.*;
+	import inobr.eft.formula.errors.*;
 	
 	import inobr.eft.formula.events.*;
 	import inobr.eft.formula.core.FormulaWorkspace;
@@ -225,9 +226,16 @@
 			{
 				var resultNumber:Array = _formula.Calculate();
 			}
-			catch (error:Error)
+			catch (error:Error) 
 			{
-				return;
+				if (error is ParserError || error is CalculationError)
+				{
+					(error as IElementError).instance.setFocus("left");
+					NotificationWindow.show(stage, T('ErrorWindowTitle'), error.message, false);
+					return;
+				}
+				else
+					throw error;
 			}
 			
 			if (!resultNumber)
@@ -256,7 +264,17 @@
 				{
 					correct = checkers[i].check(_formula);
 				}
-				catch (error:Error) { return; }
+				catch (error:Error) 
+				{
+					if (error is ParserError || error is CalculationError)
+					{
+						(error as IElementError).instance.setFocus("left");
+						NotificationWindow.show(stage, T('ErrorWindowTitle'), error.message, false);
+						return;
+					}
+					else
+						throw error;
+				}
 				
 				if (!correct)
 					break;
@@ -268,8 +286,7 @@
 			}
 			else
 			{
-				var errorMessage:String = T('IncorrectFormula');
-				_formula.dispatchEvent(new ErrorEvent(CalculatorEvents.CALCULATION_ERROR, true, false, errorMessage));
+				NotificationWindow.show(stage, T('ErrorWindowTitle'), T('IncorrectFormula'), false);
 				return;
 			}
 		}

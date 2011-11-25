@@ -18,8 +18,6 @@ package inobr.eft.formula.events
 		public static const SHOW_MENU:String = "showMenu";
 		
 		public static const DESELECT:String = "deselect";
-		
-		public static const CALCULATION_ERROR:String = "calculationError";
 	}
 	
 }

@@ -79,7 +79,6 @@ package inobr.eft.formula.core
 			
 			// add behaviour
 			addEventListener(Event.CHANGE, changed);
-			addEventListener(CalculatorEvents.CALCULATION_ERROR, errorHandler, true);
 			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
@@ -245,12 +244,6 @@ package inobr.eft.formula.core
 			// after all changes we MUST call updateScroll() method of our 
 			// scrollArea
 			_scrollArea.updateScroll();
-		}
-		
-		private function errorHandler(event:ErrorEvent):void
-		{
-			event.target.setFocus("left");
-			NotificationWindow.show(stage, T('ErrorWindowTitle'), event.text, false);
 		}
 		
 		public function removeItem(deleteMe:FormulaBox):void

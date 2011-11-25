@@ -8,6 +8,7 @@
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.FocusManager;
 	import inobr.eft.formula.events.*;
+	import inobr.eft.formula.errors.CalculationError;
 	import inobr.eft.common.lang.*;
 	
 	/**
@@ -132,22 +133,19 @@
 			
 			if (argumentValues[0] == "NaN")
 			{
-				var errorMessage:String = T('NoArgument');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+				throw new CalculationError(T('NoArgument'), this);	
 			}
 			var valuesNum:int = Math.max(argumentValues.length, powValues.length);
 			for (var i:int = 0; i < valuesNum; i++) 
 			{
 				if (argumentValues[i] < 0)
 				{
-					errorMessage = T('NegativeNumberUnderRoot');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );
+					throw new CalculationError(T('NegativeNumberUnderRoot'), this);
 				}
 				
 				if (powValues[i] == 0)
 				{
-					errorMessage = T('ZeroNumberInRootPow');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );
+					throw new CalculationError(T('ZeroNumberInRootPow'), this);
 				}
 				
 				var a:int;

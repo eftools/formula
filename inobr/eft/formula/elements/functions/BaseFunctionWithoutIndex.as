@@ -5,6 +5,7 @@ package inobr.eft.formula.elements.functions
 	
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.events.*;
+	import inobr.eft.formula.errors.CalculationError;
 	import inobr.eft.common.lang.*;
 	
 	
@@ -36,8 +37,7 @@ package inobr.eft.formula.elements.functions
 				
 			if (argumentValues[0] == "NaN")
 			{
-				var errorMessage:String = T('NoArgument');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+				throw new CalculationError( T('NoArgument'), this);	
 			}
 			
 			var valuesNum:int = Math.max(argumentValues.length, powValues.length);

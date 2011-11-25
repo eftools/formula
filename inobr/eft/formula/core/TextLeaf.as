@@ -7,6 +7,7 @@ package inobr.eft.formula.core
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	import inobr.eft.formula.errors.ParserError;
 	
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.*;
@@ -333,7 +334,7 @@ package inobr.eft.formula.core
 			if (tokens[0] == "error")
 			{
 				var errorMessage:String = T(tokens[1]);
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );
+				throw new ParserError(T(tokens[1]), this /*{ "instance":this, "errorMessage":errorMessage }*/ );
 			}
 				
 			return tokens;

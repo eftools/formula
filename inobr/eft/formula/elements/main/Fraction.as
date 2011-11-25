@@ -8,6 +8,7 @@ package inobr.eft.formula.elements.main
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.events.*;
 	import inobr.eft.formula.core.managers.FocusManager;
+	import inobr.eft.formula.errors.CalculationError;
 	import inobr.eft.common.lang.*;
 	
 	/**
@@ -131,8 +132,7 @@ package inobr.eft.formula.elements.main
 			
 			if (numerator[0] == "NaN" || denominator[0] == "NaN")
 			{
-				var errorMessage:String = T('NoArgument');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );	
+				throw new CalculationError(T('NoArgument'), this);	
 			}
 			var valuesNum:int = Math.max(numerator.length, denominator.length);
 			for (var i:int = 0; i < valuesNum; i++) 
@@ -144,8 +144,7 @@ package inobr.eft.formula.elements.main
 				
 				if (Number(denominator[d]) == 0)
 				{
-					errorMessage = T('DivisionByZero');
-					throw new Error( { "instance":this, "errorMessage":errorMessage } );
+					throw new CalculationError(T('DivisionByZero'), this);
 				}
 				var fraction:Number = Number(numerator[n]) / Number(denominator[d]);
 					

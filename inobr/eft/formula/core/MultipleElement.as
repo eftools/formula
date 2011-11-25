@@ -2,6 +2,8 @@ package inobr.eft.formula.core
 {
 	import flash.events.*;
 	import inobr.eft.formula.core.*;
+	import inobr.eft.formula.errors.CalculationError;
+	import inobr.eft.formula.errors.ParserError;
 	import inobr.eft.formula.events.*;
 	import inobr.eft.formula.parser.Parser;
 	
@@ -206,18 +208,7 @@ package inobr.eft.formula.core
 			 // working with Number
 			var resultString:Array = [];
 			
-			try 
-			{
-				var resultNumber:Array = getValue();
-			}
-			catch (error:Error) 
-			{
-				// error.massage containes two field: instance (object with error)
-				// and errorMessage (description of error)
-				var source:Object = error.message;
-				source.instance.dispatchEvent(new ErrorEvent(CalculatorEvents.CALCULATION_ERROR, true, false, source.errorMessage));
-				throw Error("Formula can not be calculated!");
-			}
+			var resultNumber:Array = getValue();
 			
 			var precisionBase:Number = Math.pow(10 , FormulaWorkspace.precision);
 			for (var i:int = 0; i < resultNumber.length; i++ ) 

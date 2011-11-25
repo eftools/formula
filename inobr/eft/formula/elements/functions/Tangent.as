@@ -3,10 +3,12 @@ package inobr.eft.formula.elements.functions
 	import flash.display.SimpleButton;
 	import flash.events.*;
 	import flash.utils.*;
+
 	
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.FocusManager;
 	import inobr.eft.formula.events.*;
+	import inobr.eft.formula.errors.CalculationError;
 	import inobr.eft.common.lang.*;
 	
 	/**
@@ -52,8 +54,7 @@ package inobr.eft.formula.elements.functions
 		{
 			if (argument == 90)
 			{
-				var errorMessage:String = T('TangentOfNinetyError');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );
+				throw new CalculationError(T('TangentOfNinetyError'), this);
 			}
 			var tangent:Number = Math.tan(argument * Math.PI / 180);
 			return tangent;

@@ -3,6 +3,7 @@ package inobr.eft.formula.elements.functions
 	import flash.display.SimpleButton;
 	import flash.events.*;
 	import flash.utils.*;
+	import inobr.eft.formula.errors.CalculationError;
 	
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.FocusManager;
@@ -52,8 +53,7 @@ package inobr.eft.formula.elements.functions
 		{
 			if (argument == 0)
 			{
-				var errorMessage:String = T('CotangentOfZeroError');
-				throw new Error( { "instance":this, "errorMessage":errorMessage } );
+				throw new CalculationError(T('CotangentOfZeroError'), this);
 			}
 			var cotangent:Number = 1 / Math.tan(argument * Math.PI / 180);
 			return cotangent;
