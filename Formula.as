@@ -19,8 +19,8 @@ package
 			var workspace:FormulaWorkspace = new FormulaWorkspace(530, 380, ru);
 			workspace.y = 10;
 			
-			workspace.toolbar.addCategoryByParams(new FractionCategoryButton(), [Fraction, Power, Brackets, Root, NaturalLogarithm, Logarithm]);
-			workspace.toolbar.addCategoryByParams(new TrigonometryCategoryButton(), [Sinus, Cosinus, Tangent, Cotangent]);
+			workspace.toolbar.addCategoryByParams(new CommonCategoryButton(), [Fraction, Power, Brackets, Root]);
+			workspace.toolbar.addCategoryByParams(new FunctionsCategoryButton(), [Sinus, Cosinus, Tangent, Cotangent, NaturalLogarithm, Logarithm]);
 			workspace.toolbar.addCategoryByParams(new VariableCategoryButton(), [Variable.getToolbarItem("k", [-3, -2, 0, 1]), Variable.getToolbarItem("Fтр", 2)]);
 			
 			workspace.formulaAreaType = FormulaAreaTypes.CHECK;
