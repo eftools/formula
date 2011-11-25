@@ -60,7 +60,12 @@ package inobr.eft.formula.core
 		 */
 		override public function getValue():Array 
 		{
-			var result:Array = _innerItems[0].getValue();
+			var result:Array = [];
+			
+			if (_innerItems[0] is TextLeaf)
+				result = _innerItems[0].getTokens();
+			else
+				result = _innerItems[0].getValue();
 			
 			return result;
 		}
