@@ -27,7 +27,6 @@ package inobr.eft.formula.core
 		private static const RIGHTMARGIN:uint = 4;
 		
 		private var _myParent:Object;
-		private var _instance:Object;
 		
 		private var _innerText:TextField;
 		private var _mask:Shape;
@@ -42,6 +41,7 @@ package inobr.eft.formula.core
 		
 		private var _selected:Boolean = false;
 		private var _startPoint:Point = new Point();
+		private var _isCursorAtTheStartOnKeyDown:Boolean;
 		private var _isCursorAtTheEndOnKeyDown:Boolean;
 		
 		/**
@@ -52,7 +52,6 @@ package inobr.eft.formula.core
 		 */
 		public function TextLeaf(withText:String = ""):void
 		{
-			_instance = this;
 			drawTextLeaf(withText);
 			// listen to the TextLeaf added to Stage
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -133,9 +132,14 @@ package inobr.eft.formula.core
 		
 		private function keyDownHandler(event:KeyboardEvent):void
 		{
-			if (event.keyCode == KeyCodes.DEL)
+			if (event.keyCode == KeyCodes.DEL) 
 			{
 				_isCursorAtTheEndOnKeyDown = _innerText.caretIndex == _innerText.length;
+			}
+
+			if (event.keyCode == KeyCodes.BACKSPACE)
+			{
+				_isCursorAtTheStartOnKeyDown = _innerText.caretIndex == 0;
 			}
 		}
 		
@@ -155,18 +159,23 @@ package inobr.eft.formula.core
 			{
 				case KeyCodes.LEFT_ARROW:
 					if (_innerText.caretIndex == 0 && previousCaretIndex == _innerText.caretIndex)
-						_myParent.moveFocus(_instance, "left");
+						_myParent.moveFocus(this, "left");
 					break;
 				case KeyCodes.RIGHT_ARROW:
 					if (_innerText.caretIndex == _innerText.length && previousCaretIndex == _innerText.caretIndex)
-						_myParent.moveFocus(_instance, "right");
+						_myParent.moveFocus(this, "right");
 					break;
 				case KeyCodes.BACKSPACE:
+					if (_isCursorAtTheStartOnKeyDown && !SelectionManager.isElementsSelected) {
+						_myParent.removePreviousItem(this);
+						break;
+					}
+					
 					deleteSelectedItems();
 					break;
 				case KeyCodes.DEL:
 					if (_isCursorAtTheEndOnKeyDown && !SelectionManager.isElementsSelected) {
-						_myParent.removeNextItem(_instance);
+						_myParent.removeNextItem(this);
 						break;
 					}
 					
@@ -347,11 +356,6 @@ package inobr.eft.formula.core
 		public function set myParent(setValue:Object):void 
 		{
 			_myParent = setValue;
-		}
-		
-		public function get instance():Object 
-		{
-			return _instance;
 		}
 		
 		/**

@@ -3,6 +3,7 @@ package inobr.eft.formula.core
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.*;
+	import flash.text.TextField;
 	import inobr.eft.formula.core.*;
 	import inobr.eft.formula.core.managers.FocusManager;
 	
@@ -308,6 +309,17 @@ package inobr.eft.formula.core
 			return _myParent;
 		}
 		
+		public function removePreviousItem(item:TextLeaf):void
+		{
+			var pos:int = _innerItems.indexOf(item);
+			if (pos != -1 && pos - 1 >= 0 && _innerItems[pos - 1] is BaseExpression)
+			{
+				_innerItems[pos - 1].removeYourself();
+				if (_innerItems[pos - 1] is TextLeaf) mergeTextLeafWithPreviousTextLeaf(item)
+				else trace("Assert!!!! Wrong removeNextItem call!!!");
+			}
+		}
+		
 		public function removeNextItem(item:TextLeaf):void
 		{
 			var pos:int = _innerItems.indexOf(item);
@@ -319,6 +331,24 @@ package inobr.eft.formula.core
 			}
 		}
 		
+		public function mergeTextLeafWithPreviousTextLeaf(textLeaf:TextLeaf):void
+		{
+			var pos:int = _innerItems.indexOf(textLeaf);
+			if (pos != -1 && pos - 1 >= 0 && _innerItems[pos - 1] is TextLeaf)
+			{
+				var innerText:TextField = _innerItems[pos - 1].innerText;
+
+				textLeaf.myParent.moveFocus(textLeaf, "left");
+				//innerText.setSelection(innerText.length, innerText.length);
+				
+				innerText.appendText(textLeaf.innerText.text);
+				
+				textLeaf.removeYourself(null, true);
+				_innerItems[pos - 1].update();
+			}
+			else trace("Assert!!!! Wrong MergeTextLeafWithNextTextLeaf call!!!");
+		}
+
 		public function mergeTextLeafWithNextTextLeaf(textLeaf:TextLeaf):void
 		{
 			var pos:int = _innerItems.indexOf(textLeaf);
@@ -331,5 +361,4 @@ package inobr.eft.formula.core
 			else trace("Assert!!!! Wrong MergeTextLeafWithNextTextLeaf call!!!");
 		}
 	}
-
 }
